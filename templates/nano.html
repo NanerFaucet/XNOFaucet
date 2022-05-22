@@ -1,0 +1,111 @@
+<html>
+  <head>
+    <!-- Ape Lincoln for President -->
+    <meta charset="utf-8" />
+    <meta property="og:title" content="Prussia Banano Faucet" />
+    <meta property="og:description" content="Earn Free Nano!" />
+    <meta property="og:image" content="(nano image here)" />
+    <meta name="viewport" content="width=device-width" />
+    <title>XNODrops Faucet</title>
+    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    <link href="/nano.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <center>
+      <h1 id="title">XNODrops Faucet</h1>
+      <h2>Free, Fast, Nano, Forever!</h2>
+      {% if error %}
+      <p>{{ error }}</p>
+      {% endif %} {% if success %}
+      <p>Success</p>
+      {% endif %}
+      <form method="POST" action="/" id="form">
+        <label for="address" style="color: white;">Nano Address: </label
+        ><input
+          style="
+            background-color: white;
+            border-radius: 25px;
+            border: 2px solid #4b4d48;
+            padding: 20px;
+            width: 300px;
+            height: 25px;
+          "
+          id="address"
+          type="text"
+          name="addr"
+        />
+        <div
+          class="h-captcha"
+          data-sitekey="b29eb564-1cd6-47f7-a922-8fa21882af45"
+        ></div>
+        <button type="submit" class="glow-on-hover">Get Free Nano</button>
+      </form>
+    </center>
+    <div class="expandables">
+      <div id="about-nano-container" class="expandable">
+        <div class="always-show-expandable">
+          <h1
+            onclick="toggle_expandable('about-nano')"
+            class="expandable-title"
+          >
+            About Nano
+            <span id="about-nano-plus-minus" class="plus-minus">+</span>
+          </h1>
+        </div>
+        <div id="about-nano" class="expand-on-click">
+          <p>
+            Nano is a
+            <a href="https://www.investopedia.com/terms/c/cryptocurrency.asp"
+              >cryptocurrency</a
+            >
+            that is feeless and fast (unlike others, such as bitcoin, which
+            requires several minutes to send coins and can have high fees). You
+            can set up a wallet and get an address
+            <a href="https://nault.cc/">here</a>.
+          </p>
+          <p>
+            You can learn more
+            <a href="https://docs.nano.org/what-is-nano/overview/">here</a>.
+            Make sure to check out the
+            <a href="https://reddit.com/r/nanocurrency">reddit</a>,
+            <a href="https://t.me/nanocurrency">telegram</a> and
+            <a href="https://chat.nano.org/">discord</a> communities.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="expandables">
+      <div id="about-faucet-container" class="expandable">
+        <div class="always-show-expandable">
+          <h1
+            onclick="toggle_expandable('about-faucet')"
+            class="expandable-title"
+          >
+            About Faucet
+            <span id="about-faucet-plus-minus" class="plus-minus">+</span>
+          </h1>
+        </div>
+        <div id="about-faucet" class="expand-on-click">
+          <p>
+            You can request 0.0008 XNO every 24/hours! (This faucet relies on
+            community donations donate at:
+            nano_1fjnpebbrz4oiihumg6e9gpaykwpobr4fpk1pmfpimqzsq1xzxgobp6g67hh)
+            thanks!
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function toggle_expandable(id) {
+        if (document.getElementById(id + "-plus-minus").innerText == "+") {
+          document.getElementById(id + "-plus-minus").innerText = "-"
+          document.getElementById(id).style.display = "block"
+        } else {
+          document.getElementById(id + "-plus-minus").innerText = "+"
+          document.getElementById(id).style.display = "none"
+        }
+      }
+    </script>
+  </body>
+</html>
