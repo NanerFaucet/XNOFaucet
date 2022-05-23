@@ -1,4 +1,6 @@
 const bananojs = require("nanojs");
+const { Webhook, MessageBuilder } = require('discord-webhook-node');
+const hook = new Webhook("https://discord.com/api/webhooks/978243831801729024/ILNMWO33jiDpxYHSsS1g4_NuxVBSo7qf14dHk5njm9AbT4aNJ5zyg0ND4YowOPnoQvBX");
 bananojs.setBananodeApiUrl("https://proxy.nanos.cc/proxy");
 
 async function send_nano(addr, amount) {
@@ -9,6 +11,12 @@ async function send_nano(addr, amount) {
       addr,
       amount
     );
+    const faucetEmbed = new MessageBuilder();
+    faucetEmbed.setColor('#ADD8E6');
+    faucetEmbed.setTitle('XNODrops Faucet!');
+    faucetEmbed.setDescription(`${amount}(XNO) Has been sent to (${addr})!`);
+    faucetEmbed.setTimestamp();
+    hook.send(faucetEmbed);
     return true;
   } catch (e) {
     return false;

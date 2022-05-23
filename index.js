@@ -10,7 +10,7 @@ const mongo = require("./database.js");
 
 let db = mongo.getDb();
 let collection;
-//collection.find({}).forEach(console.dir)
+
 db.then((db) => {
   collection = db.collection("collection");
 });
@@ -59,39 +59,34 @@ function nanoclearCache() {
 }
 setInterval(nanoclearCache, claim_freq * 1.3);
 
-//If I am on break this is true. Reduces faucet payouts to 0.02
 const on_break = false;
-//If this is true, logs info
-const logging = false;
-//If this is true, no unopened accounts can claim
+const logging = true;
 const no_unopened = false;
 
 const faucet_addr_nano =
   "nano_179x6acabhx7s69xdox885uon3t4jwjaytobqdmx3xhrmm63ieoaayokbr47";
 
 const nano_blacklist = [
-  "nano_1or7xscday8pm91zjfnh5bsmsgo9t1rnci9ekopiuyfcmk3noa9oueo8zoeb",
-  "nano_17ka7phdc5za7be4xmawjhsyoubogmunkc5fkp91sztdiqbcpoiaps984xe1",
-  "nano_1s6aa835kgr6g57zy1nhig9i7p4hkuije1r4k875qtstbari9gxyn3izs6kc",
-  "nano_17qmowxc9h6fkj6bm94b4rqkwwws9knyh6kueadnf4dk7upm5etpogmd5dj8"
+  "",
 ];
 
 app.get("/", async function (req, res) {
-  return res.send(nunjucks.render("nano.html", {}));
+  //return res.send(nunjucks.render('index.html', {error: "Faucet currently under upgrade and maintenance, come back later", success: false}));
+  return res.send(nunjucks.render("index.html", {}));
 });
 
 app.post("/", async function (req, res) {
-  //return res.send(nunjucks.render('nano.html', {error: "Faucet currently under upgrade and maintenance, come back later", success: false}));
+  //return res.send(nunjucks.render('index.html', {error: "Faucet currently under upgrade and maintenance, come back later", success: false}));
   let address = req.body["addr"];
 
   let current_bal = await nano.check_bal(faucet_addr_nano);
-  let amount = 0.0002;
+  let amount = 0.0008;
 
   if (await nano.is_unopened(address)) {
-    amount = 0.00005;
+    amount = 0.0002;
     if (no_unopened) {
       return res.send(
-        nunjucks.render("nano.html", {
+        nunjucks.render("index.html", {
           error: "Faucet is under attack, unopened addresses cannot claim.",
           success: false
         })
@@ -104,7 +99,7 @@ app.post("/", async function (req, res) {
     nano_ip_cache[ip] = nano_ip_cache[ip] + 1;
     if (nano_ip_cache[ip] > 2) {
       return res.send(
-        nunjucks.render("nano.html", { error: "Too many claims from this IP" })
+        nunjucks.render("index.html", { error: "Too many claims from this IP, Please wait!" })
       );
     }
   } else {
@@ -119,8 +114,8 @@ app.post("/", async function (req, res) {
   if (req.cookies["nano_last_claim"]) {
     if (Number(req.cookies["nano_last_claim"]) + claim_freq > Date.now()) {
       return res.send(
-        nunjucks.render("nano.html", {
-          error: "Last claim too soon.",
+        nunjucks.render("index.html", {
+          error: "Your have already claimed, please wait 24/hours!",
           success: false
         })
       );
@@ -133,7 +128,7 @@ app.post("/", async function (req, res) {
     nano_blacklist.includes(address)
   ) {
     return res.send(
-      nunjucks.render("nano.html", {
+      nunjucks.render("index.html", {
         error:
           "This address is blacklisted because it is cheating and farming faucets (or sent money to an address participating in cheating and farming).",
         success: false
@@ -153,7 +148,7 @@ app.post("/", async function (req, res) {
 
   if (!captcha_resp["success"]) {
     return res.send(
-      nunjucks.render("nano.html", { error: "Captcha failed", success: false })
+      nunjucks.render("index.html", { error: "Captcha failed!", success: false })
     );
   }
 
@@ -161,7 +156,7 @@ app.post("/", async function (req, res) {
 
   if (!valid) {
     return res.send(
-      nunjucks.render("nano.html", {
+      nunjucks.render("index.html", {
         error: "Invalid address.",
         success: false
       })
@@ -172,7 +167,7 @@ app.post("/", async function (req, res) {
 
   if (dry) {
     return res.send(
-      nunjucks.render("nano.html", { error: "Faucet dry", success: false })
+      nunjucks.render("index.html", { error: "Faucet dry!", success: false })
     );
   }
 
@@ -184,18 +179,18 @@ app.post("/", async function (req, res) {
       let send = await nano.send_nano(address, amount);
       if (send == false) {
         return res.send(
-          nunjucks.render("nano.html", { error: "Send failed", success: false })
+          nunjucks.render("index.html", { error: "Send failed!", success: false })
         );
       }
       res.cookie("nano_last_claim", String(Date.now()));
       await replace(address, String(Date.now()));
       return res.send(
-        nunjucks.render("nano.html", { error: false, success: true })
+        nunjucks.render("index.html", { error: false, success: true })
       );
     } else {
       return res.send(
-        nunjucks.render("nano.html", {
-          error: "Last claim too soon",
+        nunjucks.render("index.html", {
+          error: "Your have already claimed, please wait 24/hours!",
           success: false
         })
       );
@@ -205,18 +200,17 @@ app.post("/", async function (req, res) {
   let send = await nano.send_nano(address, amount);
   if (send == false) {
     return res.send(
-      nunjucks.render("nano.html", { error: "Send failed", success: false })
+      nunjucks.render("index.html", { error: "Send failed!", success: false })
     );
   }
   res.cookie("nano_last_claim", String(Date.now()));
   await insert(address, String(Date.now()));
   return res.send(
-    nunjucks.render("nano.html", { error: false, success: true })
+    nunjucks.render("index.html", { error: false, success: true })
   );
 });
 
 app.listen(8081, async () => {
-  //nano receive deposits is expensive, avoid doing
   await nano.receive_deposits();
-  console.log(`App on`);
+  console.log(`App online!`);
 });

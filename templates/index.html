@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="keywords" content="Nano, Xno, Crypto, Faucet, FreeFaucet, NanoFaucet">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta property="og:title" content="XNODrops Faucet" />
+		<meta property="og:description" content="Earn Free Nano!" />
+
+		<title>XNODrops Faucet</title>
+		<link rel="shortcut icon" type="image/jpg" href="/nano.jpg" />
+		<link href="/style.css" rel="stylesheet" type="text/css" />
+		<script src="https://hcaptcha.com/1/api.js" async defer></script>
+	</head>
+	<body>
+		<div id="content">
+			<h1>XNODrops Faucet</h1>
+			<h2>Free Forever, Fast Forever, Nano!</h2>
+			{% if error %}
+			<p>Error: {{ error }}</p>
+			{% endif %} {% if success %}
+			<p>Success sent NANO!</p>
+			{% endif %}
+			<form action="/" method="post" id="form">
+				<label for="address">Your NANO Address</label>
+				<br/>
+				<input
+					type="text"
+					name="addr"
+					placeholder="nano_1fjnpebbrz4oiihumg6e9gpaykwpobr4fpk1pmfpimqzsq1xzxgobp6g67hh"
+					pattern="^(?:nano|xrb)_(?:1|3)[a-zA-Z0-9]{59}$"
+					required
+				/>
+				<br/>
+				<div
+					class="h-captcha"
+					data-sitekey="b29eb564-1cd6-47f7-a922-8fa21882af45"
+				></div>
+				<button type="submit" class="glow-on-hover" id="get-btn">
+					Get Free Nano
+				</button>
+			</form>
+			<div class="collapsible">
+				<div class="collapsible-title">About Nano</div>
+				<div class="collapsible-content">
+					<p>
+						Nano is a
+						<a
+							href="https://www.investopedia.com/terms/c/cryptocurrency.asp"
+							>cryptocurrency</a
+						>
+						that is feeless and fast (unlike others, such as
+						bitcoin, which requires several minutes to send coins
+						and can have high fees). You can set up a wallet and get
+						an address
+						<a href="https://nault.cc/">here</a>.
+					</p>
+					<p>
+						You can learn more
+						<a href="https://docs.nano.org/what-is-nano/overview/"
+							>here</a
+						>. Make sure to check out the
+						<a href="https://reddit.com/r/nanocurrency">reddit</a>,
+						<a href="https://t.me/nanocurrency">telegram</a> and
+						<a href="https://chat.nano.org/">discord</a>
+						communities.
+					</p>
+				</div>
+			</div>
+			<div class="collapsible">
+				<div class="collapsible-title">About Faucet</div>
+				<div class="collapsible-content">
+					<p>
+						You can request 0.0008 XNO every 24/hours! <br/>
+						This faucet runs off the communities, So donations are needed! <br/>
+						nano_1fjnpebbrz4oiihumg6e9gpaykwpobr4fpk1pmfpimqzsq1xzxgobp6g67hh
+					</p>
+				</div>
+			</div>
+			<div class="collapsible">
+				<div class="collapsible-title">Contributors/Community</div>
+				<div class="collapsible-content">
+					<p>
+						Contributors: <br>
+							Bugley#2055 - Front-End/Back-End (Project Lead) <br/>
+							AliFurkan#2393 - Front-End (Contributor) <br/>
+
+							Check out AliFurkan's <a href="https://gitlab.com/alifurkany">GitLab!</a> <br/>
+
+						Communities: <br/>
+							<a href="https://discord.gg/dy4uZbGsWm/">Discord Link!</a>
+					</p>
+				</div>
+			</div>
+		</div>
+		<script>
+            for (let el of document.querySelectorAll(".collapsible")) {
+                el.children[0].addEventListener("click", function () {
+                    let content = el.children[1];
+                    if (content.style.display === "block") {
+                        content.style.display = "none";
+                        window.scrollBy({
+                            top: -content.scrollHeight
+                        });
+                    } else {
+                        content.style.display = "block";
+                        window.scrollBy({
+                            top: content.scrollHeight
+                        });
+                    }
+                });
+            }
+		</script>
+	</body>
+</html>

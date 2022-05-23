@@ -1,0 +1,33 @@
+{
+  "author": {
+    "name": "Robert Kieffer",
+    "url": "http://github.com/broofa",
+    "email": "robert@broofa.com"
+  },
+  "bin": {
+    "mimescore": "./bin/mimescore"
+  },
+  "engines": {
+    "node": ">=0.6"
+  },
+  "contributors": [],
+  "description": "Logic for prioritizing MIME types",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "7.1.2"
+  },
+  "scripts": {
+    "test": "mocha test.js"
+  },
+  "keywords": [
+    "",
+    "mime"
+  ],
+  "name": "mime-score",
+  "repository": {
+    "url": "https://github.com/broofa/mime-score",
+    "type": "git"
+  },
+  "version": "1.2.0"
+}
