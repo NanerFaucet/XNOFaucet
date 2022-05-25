@@ -1,2 +1,2 @@
 # NanoBread 
-this is a old opensoruce version of XNOFuacet now knowen has NanoBread
+this is an old opensource version of XNOFaucet now known as NanoBread
